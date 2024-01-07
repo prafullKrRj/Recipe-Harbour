@@ -10,7 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeScreen
+import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeViewModel
 import com.prafullkumar.recipeharbour.ui.theme.RecipeHarbourTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,13 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val recipeName = "chicken"
-                    val viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
-                    val state = viewModel.recipe.collectAsState()
-                    LaunchedEffect(Unit) {
-                        viewModel.getRecipeFromName(recipeName)
-                    }
-                    Text(text = state.value)
+                    NavigationGraph()
                 }
             }
         }

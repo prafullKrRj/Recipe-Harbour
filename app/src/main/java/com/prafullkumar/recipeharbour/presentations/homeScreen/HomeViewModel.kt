@@ -1,4 +1,4 @@
-package com.prafullkumar.recipeharbour
+package com.prafullkumar.recipeharbour.presentations.homeScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.prafullkumar.recipeharbour.RecipeHarbourApp
 import com.prafullkumar.recipeharbour.data.RecipeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

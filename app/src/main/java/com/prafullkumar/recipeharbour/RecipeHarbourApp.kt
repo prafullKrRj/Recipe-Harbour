@@ -1,8 +1,8 @@
 package com.prafullkumar.recipeharbour
 
 import android.app.Application
-import com.prafullkumar.recipeharbour.data.RecipeAppContainer
-import com.prafullkumar.recipeharbour.data.RecipeAppContainerImpl
+import com.prafullkumar.recipeharbour.di.RecipeAppContainer
+import com.prafullkumar.recipeharbour.di.RecipeAppContainerImpl
 
 class RecipeHarbourApp: Application() {
 

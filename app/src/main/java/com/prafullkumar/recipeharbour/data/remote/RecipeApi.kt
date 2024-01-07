@@ -1,4 +1,4 @@
-package com.prafullkumar.recipeharbour.network
+package com.prafullkumar.recipeharbour.data.remote
 
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
 import retrofit2.http.GET

@@ -1,7 +1,9 @@
-package com.prafullkumar.recipeharbour.data
+package com.prafullkumar.recipeharbour.di
 
 import android.content.Context
-import com.prafullkumar.recipeharbour.network.RecipeApi
+import com.prafullkumar.recipeharbour.data.RecipeRepository
+import com.prafullkumar.recipeharbour.data.RecipeRepositoryImpl
+import com.prafullkumar.recipeharbour.data.remote.RecipeApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

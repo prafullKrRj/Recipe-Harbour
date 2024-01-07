@@ -2,7 +2,7 @@ package com.prafullkumar.recipeharbour.data
 
 import android.content.Context
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
-import com.prafullkumar.recipeharbour.network.RecipeApi
+import com.prafullkumar.recipeharbour.data.remote.RecipeApi
 
 interface RecipeRepository {
     suspend fun searchRecipes(recipeName: String): RecipeFromNameDto
