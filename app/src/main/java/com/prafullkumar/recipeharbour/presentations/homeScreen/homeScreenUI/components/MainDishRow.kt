@@ -1,4 +1,4 @@
-package com.prafullkumar.recipeharbour.presentations.homeScreen.components
+package com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.prafullkumar.recipeharbour.R
-import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeScreen
+import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeScreen.RECIPE_DETAILS
+import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.HomeScreen
 import com.prafullkumar.recipeharbour.ui.theme.grey
 
 @Composable
@@ -33,7 +34,7 @@ fun MainDishRow(homeNavController: NavController) {
     LazyRow {
         items(food.size) {
             ItemCircleWithName(food[it]) {
-                homeNavController.navigate(HomeScreen.RECIPE_DETAILS.route)
+                homeNavController.navigate(RECIPE_DETAILS.route)
             }
         }
     }

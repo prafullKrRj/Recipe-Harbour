@@ -3,4 +3,7 @@
     <string name="home">Home</string>
     <string name="category">Category</string>
     <string name="main_dish">Main Dish</string>
+    <string name="indian_cuisines">Indian Cuisines</string>
+    <string name="chinese_cuisines">Chinese Cuisines</string>
+    <string name="european_cuisines">European Cuisines</string>
 </resources>

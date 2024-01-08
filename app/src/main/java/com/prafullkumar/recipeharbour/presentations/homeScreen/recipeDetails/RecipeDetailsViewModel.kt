@@ -1,4 +1,4 @@
-package com.prafullkumar.recipeharbour.presentations.homeScreen
+package com.prafullkumar.recipeharbour.presentations.homeScreen.recipeDetails
 
 import androidx.lifecycle.ViewModel
 import com.prafullkumar.recipeharbour.data.RecipeRepository

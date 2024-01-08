@@ -1,4 +1,4 @@
-package com.prafullkumar.recipeharbour.presentations.homeScreen.components
+package com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.components
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding

@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.prafullkumar.recipeharbour.ViewModelProvider
+import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.HomeScreen
 import com.prafullkumar.recipeharbour.presentations.homeScreen.recipeDetails.RecipeDetailsScreen
 
 @Composable
