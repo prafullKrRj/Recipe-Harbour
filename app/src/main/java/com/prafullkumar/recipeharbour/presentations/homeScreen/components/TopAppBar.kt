@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.prafullkumar.recipeharbour.R
+import com.prafullkumar.recipeharbour.ui.theme.PoppinsSemiBold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -17,6 +18,7 @@ fun TopBar() {
                 text = stringResource(id = R.string.home),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                fontFamily = PoppinsSemiBold,
             )
         }
     )
