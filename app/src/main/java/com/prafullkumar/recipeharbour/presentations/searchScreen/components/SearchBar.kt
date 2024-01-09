@@ -34,8 +34,7 @@ fun RecipeSearchBar(
     modifier: Modifier,
     onSearched: (String) -> Unit,
     keyboardController: SoftwareKeyboardController?,
-    focusRequester: FocusRequester,
-    onValueChange: (String) -> Unit
+    focusRequester: FocusRequester
 ) {
 
     var userSearch by rememberSaveable {
@@ -54,7 +53,6 @@ fun RecipeSearchBar(
         value = userSearch,
         onValueChange = {
             userSearch = it
-            onValueChange(it)
         },
         shape = RoundedCornerShape(55.dp),
         colors = TextFieldDefaults.colors(
