@@ -1,4 +1,4 @@
-package com.prafullkumar.recipeharbour.data
+package com.prafullkumar.recipeharbour.data.repositories
 
 import android.content.Context
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
