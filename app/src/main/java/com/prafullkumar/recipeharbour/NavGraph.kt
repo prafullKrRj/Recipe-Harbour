@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +27,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -34,10 +35,12 @@ import com.prafullkumar.recipeharbour.presentations.favouritesScreen.FavouriteSc
 import com.prafullkumar.recipeharbour.presentations.historyScreen.HistoryScreen
 import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeNavGraph
 import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchScreenMain
+import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchViewModel
 
 @Composable
 fun NavigationGraph() {
     val navController = rememberNavController()
+    val searchViewModel: SearchViewModel = viewModel(factory = ViewModelProvider.SearchScreenVM)
     Scaffold(
         bottomBar = {
             BottomAppBar {
@@ -54,7 +57,7 @@ fun NavigationGraph() {
                 }
                 composable(Screen.SEARCH.route) {
                     SearchScreenMain(
-                        searchViewModel = viewModel(factory = ViewModelProvider.SearchScreenVM),
+                        searchViewModel = searchViewModel,
                     )
                 }
                 composable(Screen.AI.route) {
@@ -83,7 +86,7 @@ fun NavigationGraph() {
 fun BottomAppBar(
     navigationClick: (Int) -> Unit
 ) {
-    var selectedItem by remember { mutableIntStateOf(0) }
+    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
     val items = listOf(
         Pair("Home", Pair(R.drawable.home_filled, R.drawable.outline_home_24)),
         Pair("Search", Pair(R.drawable.outline_search_24, R.drawable.outline_search_24)),
@@ -104,7 +107,6 @@ fun BottomAppBar(
                     selectedItem = index
                     navigationClick(index)
                 },
-                text = item.first,
                 icon = if (selectedItem == index) item.second.first else item.second.second,
                 isSelected = selectedItem == index
             )
@@ -113,7 +115,7 @@ fun BottomAppBar(
 }
 
 @Composable
-fun BottomNavigationBarItem(modifier: Modifier, onClick: () -> Unit, text: String, icon: Int, isSelected: Boolean) {
+fun BottomNavigationBarItem(modifier: Modifier, onClick: () -> Unit, icon: Int, isSelected: Boolean) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
@@ -127,7 +129,9 @@ fun BottomNavigationBarItem(modifier: Modifier, onClick: () -> Unit, text: Strin
         Icon(
             painter = painterResource(id = icon),
             contentDescription = null,
-            modifier = Modifier.alpha(if (isSelected) 1f else 0.5f).size(24.dp)
+            modifier = Modifier
+                .alpha(if (isSelected) 1f else 0.5f)
+                .size(24.dp)
         )
         Spacer(modifier = Modifier.padding(4.dp)) // 4.dp is the default value for the medium space
         /*Text(

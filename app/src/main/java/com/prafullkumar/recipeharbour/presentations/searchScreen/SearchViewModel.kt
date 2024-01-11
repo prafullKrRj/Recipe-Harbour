@@ -16,6 +16,7 @@ class SearchViewModel(
 
     private val _searchState: MutableStateFlow<SearchState> = MutableStateFlow(SearchState.Empty)
     val searchState = _searchState.asStateFlow()
+    val searchQuery: MutableState<String> = mutableStateOf("")
     fun searchDishes(query: String) {
         _searchState.value = SearchState.Loading
         viewModelScope.launch {

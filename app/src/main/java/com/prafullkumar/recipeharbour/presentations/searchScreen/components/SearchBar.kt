@@ -16,10 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -27,19 +23,16 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RecipeSearchBar(
     modifier: Modifier,
-    onSearched: (String) -> Unit,
+    searchViewModel: SearchViewModel,
     keyboardController: SoftwareKeyboardController?,
     focusRequester: FocusRequester
 ) {
-
-    var userSearch by rememberSaveable {
-        mutableStateOf("")
-    }
     val color = MaterialTheme.colorScheme.secondaryContainer
     LaunchedEffect(key1 = Unit, block = {
         focusRequester.requestFocus()
@@ -50,9 +43,9 @@ fun RecipeSearchBar(
             .padding(top = 8.dp)
             .fillMaxWidth()
             .focusRequester(focusRequester = focusRequester),
-        value = userSearch,
+        value = searchViewModel.searchQuery.value,
         onValueChange = {
-            userSearch = it
+            searchViewModel.searchQuery.value = it
         },
         shape = RoundedCornerShape(55.dp),
         colors = TextFieldDefaults.colors(
@@ -67,8 +60,8 @@ fun RecipeSearchBar(
         },
         trailingIcon = {
             IconButton(onClick = {
-                if (userSearch.isNotEmpty()) {
-                    onSearched(userSearch)
+                if (searchViewModel.searchQuery.value.isNotEmpty()) {
+                    searchViewModel.searchDishes(searchViewModel.searchQuery.value)
                 }
             }) {
                 Icon(imageVector = Icons.Default.Send, contentDescription = null)
@@ -77,8 +70,8 @@ fun RecipeSearchBar(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = {
             keyboardController?.hide()
-            if (userSearch.isNotEmpty()) {
-                onSearched(userSearch)
+            if (searchViewModel.searchQuery.value.isNotEmpty()) {
+                searchViewModel.searchDishes(searchViewModel.searchQuery.value)
             }
         })
         , singleLine = true,

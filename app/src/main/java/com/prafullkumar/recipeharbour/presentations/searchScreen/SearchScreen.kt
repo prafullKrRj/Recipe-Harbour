@@ -1,12 +1,12 @@
 package com.prafullkumar.recipeharbour.presentations.searchScreen
 
-import android.widget.ImageView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,13 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.Hits
-import com.prafullkumar.recipeharbour.model.recipeFromNameDto.THUMBNAIL
 import com.prafullkumar.recipeharbour.presentations.searchScreen.components.RecipeSearchBar
+import com.prafullkumar.recipeharbour.presentations.searchScreen.components.SearchedRecipeCard
 import com.prafullkumar.recipeharbour.ui.theme.PoppinsMedium
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -39,10 +40,7 @@ fun SearchScreenMain(searchViewModel: SearchViewModel) {
         topBar = {
             RecipeSearchBar(
                 modifier = Modifier,
-                onSearched = { searchQuery ->
-                    focusManager.clearFocus()
-                    searchViewModel.searchDishes(searchQuery)
-                },
+                searchViewModel = searchViewModel,
                 keyboardController = keyboardController,
                 focusRequester = focusRequester
             )
@@ -51,7 +49,10 @@ fun SearchScreenMain(searchViewModel: SearchViewModel) {
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    focusManager.clearFocus()
+                },
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -75,14 +76,9 @@ fun SearchScreenMain(searchViewModel: SearchViewModel) {
 
 @Composable
 fun SuccessScreen(items: List<Hits>) {
-    LazyColumn {
-        items(items) {
-            it?.recipe?.label?.let { it1 -> Text(text = it1) }
+    LazyVerticalGrid(columns = GridCells.Adaptive(150.dp)) {
+        items(items) { item ->
+            SearchedRecipeCard(hit = item)
         }
     }
-}
-
-@Composable
-fun RecipeImage(data: String) {
-
 }
