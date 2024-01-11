@@ -66,6 +66,7 @@ fun SearchedRecipeCard(
 
 @Composable
 fun SearchedDishImage(data: String) {
+
     AsyncImage(
         modifier = Modifier
             .fillMaxSize()

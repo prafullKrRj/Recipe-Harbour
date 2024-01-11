@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.prafullkumar.recipeharbour.data.repositories.SearchRepository
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -16,7 +18,10 @@ class SearchViewModel(
 
     private val _searchState: MutableStateFlow<SearchState> = MutableStateFlow(SearchState.Empty)
     val searchState = _searchState.asStateFlow()
+
     val searchQuery: MutableState<String> = mutableStateOf("")
+
+    val history: MutableState<List<String>> = mutableStateOf(emptyList())
     fun searchDishes(query: String) {
         _searchState.value = SearchState.Loading
         viewModelScope.launch {
@@ -25,6 +30,18 @@ class SearchViewModel(
             } catch (e: Exception) {
                 SearchState.Error(e.message ?: "Something went wrong")
             }
+            searchRepository.addRecipeToDb(query)
+        }
+    }
+    init {
+        try {
+            viewModelScope.launch {
+                searchRepository.getAllHistory().stateIn(viewModelScope, SharingStarted.Lazily, emptyList()).collect { list ->
+                    history.value = list.map { it.name }
+                }
+            }
+        } catch (e: Exception) {
+            println("DB error")
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.prafullkumar.recipeharbour.di
 
 import android.content.Context
+import com.prafullkumar.recipeharbour.data.local.AppDatabase
 import com.prafullkumar.recipeharbour.data.repositories.RecipeRepository
 import com.prafullkumar.recipeharbour.data.repositories.RecipeRepositoryImpl
 import com.prafullkumar.recipeharbour.data.remote.RecipeApi
@@ -30,6 +31,7 @@ class RecipeAppContainerImpl(
     private val recipeApi by lazy {
         retrofit.create(RecipeApi::class.java)
     }
+    private val dao = AppDatabase.getDatabase(context).historyDao()
     override val recipeRepository: RecipeRepository by lazy {
         RecipeRepositoryImpl(recipeApi, context)
     }
@@ -37,7 +39,7 @@ class RecipeAppContainerImpl(
         FavouriteRepositoryImpl(context)
     }
     override val searchRepository: SearchRepository by lazy {
-        SearchRepositoryImpl(context, recipeApi)
+        SearchRepositoryImpl(context, recipeApi, dao)
     }
     override val chatBotRepository: ChatBotRepository by lazy {
         ChatBotRepositoryImpl(context)

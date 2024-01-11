@@ -4,17 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.prafullkumar.recipeharbour.data.local.entities.FavouritesEntity
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
+import com.prafullkumar.recipeharbour.data.local.entities.OpenedRecipeHistory
 
 
 @Database(
-    entities = [HistoryNameEntity::class],
+    entities = [HistoryNameEntity::class, OpenedRecipeHistory::class, FavouritesEntity::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun historyDao(): SearchHistoryDao
+
 
     companion object {
         @Volatile

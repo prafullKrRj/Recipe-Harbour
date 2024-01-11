@@ -3,9 +3,9 @@ package com.prafullkumar.recipeharbour.data.local.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "history_name_table")
 data class HistoryNameEntity (
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val time: Long = System.currentTimeMillis(),
     val name: String
 )

@@ -1,16 +1,22 @@
 package com.prafullkumar.recipeharbour.data.repositories
 
 import android.content.Context
+import com.prafullkumar.recipeharbour.data.local.SearchHistoryDao
+import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
 import com.prafullkumar.recipeharbour.data.remote.RecipeApi
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
+import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
     suspend fun searchRecipes(recipeName: String): RecipeFromNameDto
+    suspend fun addRecipeToDb(recipe: String)
+    fun getAllHistory(): Flow<List<HistoryNameEntity>>
 }
 
 class SearchRepositoryImpl (
     private val context: Context,
-    private val recipeApi: RecipeApi
+    private val recipeApi: RecipeApi,
+    private val recipeDao: SearchHistoryDao
 ) : SearchRepository {
 
     override suspend fun searchRecipes(recipeName: String): RecipeFromNameDto {
@@ -21,4 +27,13 @@ class SearchRepositoryImpl (
             appKey = Cons.appKey
         )
     }
+
+    override suspend fun addRecipeToDb(recipe: String) {
+        recipeDao.insertHistoryName(HistoryNameEntity(name = recipe))
+    }
+
+    override fun getAllHistory(): Flow<List<HistoryNameEntity>> {
+        return recipeDao.getAllHistory()
+    }
+
 }
