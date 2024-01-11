@@ -1,6 +1,5 @@
 package com.prafullkumar.recipeharbour.presentations.searchScreen.components
 
-import android.media.ImageReader
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
