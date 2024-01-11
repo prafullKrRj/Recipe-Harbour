@@ -1,6 +1,5 @@
 package com.prafullkumar.recipeharbour.data.repositories
 
-import android.content.Context
 import com.prafullkumar.recipeharbour.data.local.SearchHistoryDao
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
 import com.prafullkumar.recipeharbour.data.remote.RecipeApi
@@ -13,8 +12,7 @@ interface SearchRepository {
     fun getAllHistory(): Flow<List<HistoryNameEntity>>
 }
 
-class SearchRepositoryImpl (
-    private val context: Context,
+class SearchRepositoryImpl(
     private val recipeApi: RecipeApi,
     private val recipeDao: SearchHistoryDao
 ) : SearchRepository {

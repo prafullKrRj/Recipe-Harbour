@@ -39,7 +39,7 @@ class RecipeAppContainerImpl(
         FavouriteRepositoryImpl(context)
     }
     override val searchRepository: SearchRepository by lazy {
-        SearchRepositoryImpl(context, recipeApi, dao)
+        SearchRepositoryImpl(recipeApi, dao)
     }
     override val chatBotRepository: ChatBotRepository by lazy {
         ChatBotRepositoryImpl(context)
