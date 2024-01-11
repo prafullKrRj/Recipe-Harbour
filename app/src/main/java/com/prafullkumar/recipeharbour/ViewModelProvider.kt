@@ -35,8 +35,10 @@ object ViewModelProvider {
     val ChatBotScreenVM = viewModelFactory {
         initializer {
             val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as RecipeHarbourApp)
-            val container = application.appContainer.recipeRepository
-            ChatBotMainViewModel()
+            val container = application.appContainer.chatBotRepository
+            ChatBotMainViewModel(
+                container
+            )
         }
     }
     val SearchScreenVM = viewModelFactory {

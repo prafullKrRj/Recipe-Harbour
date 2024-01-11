@@ -14,7 +14,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "API_KEY", "AIzaSyBZqGVCyyzROabsi4r2ccYT9HNCWZ62h58")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -86,4 +85,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
+
+    // Generative AI
+    implementation("com.google.ai.client.generativeai:generativeai:0.1.2")
 }
