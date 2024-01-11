@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.prafullkumar.recipeharbour.RecipeHarbourApp
 import com.prafullkumar.recipeharbour.data.repositories.RecipeRepository
+import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeConstants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,6 +28,9 @@ class HomeViewModel(
             repository.searchRecipes(recipeName)
         }
     }
+    val indianRecipe = HomeConstants.getRandom10IndianDishes()
+    val chineseRecipe = HomeConstants.getRandom10ChineseDishes()
+    val europeanRecipe = HomeConstants.getRandom10EuropeanDishes()
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

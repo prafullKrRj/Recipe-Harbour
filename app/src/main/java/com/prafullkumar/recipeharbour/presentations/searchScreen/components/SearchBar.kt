@@ -60,6 +60,7 @@ fun RecipeSearchBar(
         },
         trailingIcon = {
             IconButton(onClick = {
+                keyboardController?.hide()
                 if (searchViewModel.searchQuery.value.isNotEmpty()) {
                     searchViewModel.searchDishes(searchViewModel.searchQuery.value)
                 }

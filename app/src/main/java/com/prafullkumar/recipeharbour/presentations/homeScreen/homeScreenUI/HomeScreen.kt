@@ -1,7 +1,5 @@
 package com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -9,12 +7,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.prafullkumar.recipeharbour.R
-import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeConstants
 import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.components.CategoriesRow
 import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.components.DishCard
 import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.components.HeadingText
@@ -61,9 +58,9 @@ fun CountryCuisines(
     HeadingText(id = cuisines.id)
     val items: List<String> =
         when (cuisines.id) {
-            R.string.indian_cuisines -> HomeConstants.getRandom10IndianDishes()
-            R.string.chinese_cuisines -> HomeConstants.getRandom10ChineseDishes()
-            R.string.european_cuisines -> HomeConstants.getRandom10EuropeanDishes()
+            R.string.indian_cuisines -> viewModel.indianRecipe
+            R.string.chinese_cuisines -> viewModel.chineseRecipe
+            R.string.european_cuisines -> viewModel.europeanRecipe
             else -> emptyList()
         }
     LazyRow {
@@ -72,7 +69,7 @@ fun CountryCuisines(
         }
     }
 }
-@Stable
+@Immutable
 data class Cuisines(
     val img: Int,
     val id: Int

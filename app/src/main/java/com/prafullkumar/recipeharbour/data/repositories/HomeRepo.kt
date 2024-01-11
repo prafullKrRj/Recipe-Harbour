@@ -15,7 +15,7 @@ class RecipeRepositoryImpl (
 
     override suspend fun searchRecipes(recipeName: String): RecipeFromNameDto {
         return recipeApi.searchRecipes(
-            type = "public",
+            type = "",
             query = recipeName,
             appId = Cons.appId,
             appKey = Cons.appKey
