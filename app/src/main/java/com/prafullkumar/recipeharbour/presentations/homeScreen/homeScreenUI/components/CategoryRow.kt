@@ -91,7 +91,7 @@ fun DishCard(
                 .align(Alignment.BottomStart)
                 .pointerInput(Unit) {
                     detectTapGestures(
-                        onPress = {
+                        onLongPress = {
                             copyToClipboard(context, foodItems[index])
                         }
                     )
