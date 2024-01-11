@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "history_name_table")
 data class HistoryNameEntity (
-    @PrimaryKey
     val time: Long = System.currentTimeMillis(),
+    @PrimaryKey
     val name: String
 )
