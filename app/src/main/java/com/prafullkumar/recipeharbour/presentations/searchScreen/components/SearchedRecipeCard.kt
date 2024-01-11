@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.prafullkumar.recipeharbour.R
@@ -28,7 +29,8 @@ import com.prafullkumar.recipeharbour.ui.theme.darkBlue
 
 @Composable
 fun SearchedRecipeCard(
-    hit: Hits
+    hit: Hits,
+    navController: NavController
 ) {
     ElevatedCard(
         modifier = Modifier
@@ -39,7 +41,8 @@ fun SearchedRecipeCard(
             .height(220.dp)
             .clip(RoundedCornerShape(20.dp))
             .clickable {
-
+                val recipeId = hit.Links?.self?.href?.substringAfterLast("/")
+                navController.navigate("recipeDetails/$recipeId")
             }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -55,7 +58,7 @@ fun SearchedRecipeCard(
                     )
                 )) {
             }
-            Text(text = hit.recipe?.label ?: "", modifier = Modifier
+            Text(text = hit.Links?.self?.href?: "", modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomStart),
                 color = Color.White
@@ -66,7 +69,6 @@ fun SearchedRecipeCard(
 
 @Composable
 fun SearchedDishImage(data: String) {
-
     AsyncImage(
         modifier = Modifier
             .fillMaxSize()

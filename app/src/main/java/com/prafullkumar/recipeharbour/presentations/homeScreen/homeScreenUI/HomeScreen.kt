@@ -36,13 +36,13 @@ fun HomeScreen(viewModel: HomeViewModel, homeNavController: NavController) {
             }
             item {
                 CountryCuisines(
-                    cuisines = Cuisines(R.drawable.european, R.string.european_cuisines), viewModel = viewModel, homeNavController = homeNavController)
+                    cuisines = Cuisines(R.drawable.european, R.string.european_cuisines), viewModel = viewModel, navController = homeNavController)
             }
             item {
-                CountryCuisines(cuisines = Cuisines(R.drawable.chinese, R.string.chinese_cuisines),  viewModel = viewModel, homeNavController = homeNavController)
+                CountryCuisines(cuisines = Cuisines(R.drawable.chinese, R.string.chinese_cuisines),  viewModel = viewModel, navController = homeNavController)
             }
             item {
-                CountryCuisines(cuisines = Cuisines(R.drawable.indian, R.string.indian_cuisines),  viewModel = viewModel, homeNavController = homeNavController)
+                CountryCuisines(cuisines = Cuisines(R.drawable.indian, R.string.indian_cuisines),  viewModel = viewModel, navController = homeNavController)
             }
 
         }
@@ -53,7 +53,7 @@ fun HomeScreen(viewModel: HomeViewModel, homeNavController: NavController) {
 fun CountryCuisines(
     cuisines: Cuisines,
     viewModel: HomeViewModel,
-    homeNavController: NavController,
+    navController: NavController,
 ) {
     HeadingText(id = cuisines.id)
     val items: List<String> =
@@ -65,7 +65,9 @@ fun CountryCuisines(
         }
     LazyRow {
         items(items.size) {index ->
-            DishCard(img = cuisines.img, index = index, homeNavController = homeNavController, foodItems = items)
+            DishCard(img = cuisines.img, index = index, foodItems = items) {
+                navController.navigate("recipe/${""}")
+            }
         }
     }
 }

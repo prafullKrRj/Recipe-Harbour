@@ -7,7 +7,7 @@ import com.prafullkumar.recipeharbour.presentations.aiScreen.ChatBotMainViewMode
 import com.prafullkumar.recipeharbour.presentations.favouritesScreen.FavouritesViewModel
 import com.prafullkumar.recipeharbour.presentations.historyScreen.HistoryViewModel
 import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.HomeViewModel
-import com.prafullkumar.recipeharbour.presentations.homeScreen.recipeDetails.RecipeDetailsViewModel
+import com.prafullkumar.recipeharbour.presentations.recipeScreen.RecipeDetailsViewModel
 import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchViewModel
 
 object ViewModelProvider {

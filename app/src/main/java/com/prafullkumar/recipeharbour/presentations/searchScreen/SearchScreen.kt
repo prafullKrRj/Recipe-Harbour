@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.prafullkumar.recipeharbour.R
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.Hits
 import com.prafullkumar.recipeharbour.presentations.searchScreen.components.RecipeSearchBar
@@ -43,7 +44,7 @@ import com.prafullkumar.recipeharbour.ui.theme.PoppinsRegular
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchScreenMain(searchViewModel: SearchViewModel) {
+fun SearchScreenMain(searchViewModel: SearchViewModel, navController: NavController) {
     val focusRequester = remember {
         FocusRequester()
     }
@@ -73,7 +74,7 @@ fun SearchScreenMain(searchViewModel: SearchViewModel) {
         ) {
             when (searchState.value) {
                 is SearchState.Success -> {
-                    SuccessScreen(items = (searchState.value as SearchState.Success).dishes.hits)
+                    SuccessScreen(items = (searchState.value as SearchState.Success).dishes.hits, navController)
                 }
                 is SearchState.Error -> {
                     Text(text = (searchState.value as SearchState.Error).error, fontSize = 50.sp, fontFamily = PoppinsMedium)
@@ -127,10 +128,11 @@ fun EmptyScreen(historyItem: List<String>, onClick: (String) -> Unit = {}) {
     }
 }
 @Composable
-fun SuccessScreen(items: List<Hits>) {
+fun SuccessScreen(items: List<Hits>, navController: NavController) {
     LazyVerticalGrid(columns = GridCells.Adaptive(150.dp)) {
         items(items) { item ->
-            SearchedRecipeCard(hit = item)
+            SearchedRecipeCard(
+            hit = item, navController = navController)
         }
     }
 }

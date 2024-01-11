@@ -25,13 +25,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.prafullkumar.recipeharbour.presentations.aiScreen.ChatBotScreenMain
 import com.prafullkumar.recipeharbour.presentations.favouritesScreen.FavouriteScreen
 import com.prafullkumar.recipeharbour.presentations.historyScreen.HistoryScreen
-import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeNavGraph
+import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.HomeScreen
+import com.prafullkumar.recipeharbour.presentations.recipeScreen.RecipeDetailsScreen
 import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchScreenMain
 import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchViewModel
 
@@ -51,11 +54,14 @@ fun NavigationGraph() {
             .padding(paddingValues)) {
             NavHost(navController = navController, startDestination = Screen.HOME.route) {
                 composable(Screen.HOME.route) {
-                    HomeNavGraph(navController = navController)
+                    HomeScreen(viewModel = viewModel(
+                        factory = ViewModelProvider.HomeScreenVM
+                    ), navController)
                 }
                 composable(Screen.SEARCH.route) {
                     SearchScreenMain(
                         searchViewModel = searchViewModel,
+                        navController = navController
                     )
                 }
                 composable(Screen.AI.route) {
@@ -75,11 +81,20 @@ fun NavigationGraph() {
                         navController
                     )
                 }
+                composable(
+                    "recipeDetails/{recipe}",
+                    arguments = listOf(navArgument("recipe") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    backStackEntry.arguments?.getString("recipe").let { recipe ->
+                        RecipeDetailsScreen(viewModel = viewModel(factory = ViewModelProvider.getRecipesViewModel(
+                            recipe = recipe ?: ""
+                        )), navController)
+                    }
+                }
             }
         }
     }
 }
-
 @Composable
 fun BottomAppBar(
     navigationClick: (Int) -> Unit
@@ -111,7 +126,6 @@ fun BottomAppBar(
         }
     }
 }
-
 @Composable
 fun BottomNavigationBarItem(modifier: Modifier, onClick: () -> Unit, icon: Int, isSelected: Boolean) {
     Column(
@@ -144,5 +158,5 @@ enum class Screen(val route: String) {
     SEARCH("search"),
     AI("ai"),
     FAVOURITE("favourites"),
-    HISTORY("history");
+    HISTORY("history"),
 }

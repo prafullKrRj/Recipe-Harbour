@@ -23,8 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.prafullkumar.recipeharbour.R
-import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeScreen.RECIPE_DETAILS
-import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.HomeScreen
 import com.prafullkumar.recipeharbour.ui.theme.grey
 
 @Composable
@@ -34,7 +32,7 @@ fun MainDishRow(homeNavController: NavController) {
     LazyRow {
         items(food.size) {
             ItemCircleWithName(food[it]) {
-                homeNavController.navigate(RECIPE_DETAILS.route)
+
             }
         }
     }

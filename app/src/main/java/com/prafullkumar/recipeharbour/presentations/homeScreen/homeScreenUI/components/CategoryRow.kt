@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.prafullkumar.recipeharbour.R
-import com.prafullkumar.recipeharbour.presentations.homeScreen.HomeScreen
 import com.prafullkumar.recipeharbour.ui.theme.darkBlue
 
 @Composable
@@ -40,7 +39,7 @@ fun CategoriesRow(homeNavController: NavController) {
     HeadingText(id = R.string.category)
     LazyRow {
         items(foodItems.size) { index ->
-            DishCard(img = R.drawable.img,index = index, homeNavController = homeNavController, foodItems = foodItems)
+            DishCard(img = R.drawable.img, index = index, foodItems = foodItems)
         }
     }
 }
@@ -49,8 +48,8 @@ fun CategoriesRow(homeNavController: NavController) {
 fun DishCard(
     @DrawableRes img: Int,
     index: Int,
-    homeNavController: NavController,
-    foodItems: List<String>
+    foodItems: List<String>,
+    navigateToRecipe: () -> Unit = {}
 ) {
     val context = LocalContext.current
     ElevatedCard(
@@ -65,7 +64,7 @@ fun DishCard(
             .clickable(
                 role = Role.Image
             ) {
-                homeNavController.navigate(HomeScreen.RECIPE_DETAILS.route)
+                navigateToRecipe()
             }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
