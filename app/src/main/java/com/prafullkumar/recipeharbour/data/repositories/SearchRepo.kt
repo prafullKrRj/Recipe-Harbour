@@ -1,6 +1,6 @@
 package com.prafullkumar.recipeharbour.data.repositories
 
-import com.prafullkumar.recipeharbour.data.local.SearchHistoryDao
+import com.prafullkumar.recipeharbour.data.local.AppDao
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
 import com.prafullkumar.recipeharbour.data.remote.RecipeApi
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
@@ -14,7 +14,7 @@ interface SearchRepository {
 
 class SearchRepositoryImpl(
     private val recipeApi: RecipeApi,
-    private val recipeDao: SearchHistoryDao
+    private val recipeDao: AppDao
 ) : SearchRepository {
 
     override suspend fun searchRecipes(recipeName: String): RecipeFromNameDto {

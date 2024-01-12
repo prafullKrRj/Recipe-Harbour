@@ -40,7 +40,7 @@ class RecipeAppContainerImpl(
     }
     private val dao = AppDatabase.getDatabase(context).historyDao()
     override val recipeRepository: RecipeRepository by lazy {
-        RecipeRepositoryImpl(recipeApi, context)
+        RecipeRepositoryImpl(recipeApi, dao)
     }
     override val favoriteRepository: FavouriteRepository by lazy {
         FavouriteRepositoryImpl(context)

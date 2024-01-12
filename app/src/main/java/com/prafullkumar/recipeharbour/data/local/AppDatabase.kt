@@ -4,20 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.prafullkumar.recipeharbour.data.local.entities.FavouritesEntity
+import androidx.room.TypeConverters
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
-import com.prafullkumar.recipeharbour.data.local.entities.OpenedRecipeHistory
+import com.prafullkumar.recipeharbour.model.singleRecipeDto.Converters
+import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 
 
 @Database(
-    entities = [HistoryNameEntity::class, OpenedRecipeHistory::class, FavouritesEntity::class],
+    entities = [HistoryNameEntity::class, SingleRecipeDto::class],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 
-    abstract fun historyDao(): SearchHistoryDao
-
+    abstract fun historyDao(): AppDao
 
     companion object {
         @Volatile

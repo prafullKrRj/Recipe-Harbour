@@ -7,4 +7,5 @@ class FavouritesViewModel(
     private val repository: RecipeRepository
 ): ViewModel() {
 
+
 }

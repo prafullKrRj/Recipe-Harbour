@@ -1,18 +1,21 @@
 package com.prafullkumar.recipeharbour.data.repositories
 
-import android.content.Context
+import com.prafullkumar.recipeharbour.data.local.AppDao
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
 import com.prafullkumar.recipeharbour.data.remote.RecipeApi
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
+import kotlinx.coroutines.flow.Flow
 
 interface RecipeRepository {
     suspend fun searchRecipes(recipeName: String): RecipeFromNameDto
     suspend fun getRecipeDetails(recipeId: String): SingleRecipeDto
+    suspend fun saveRecipe(recipe: SingleRecipeDto)
+    fun getSavedRecipes(): Flow<List<SingleRecipeDto>>
 }
 
-class RecipeRepositoryImpl (
+class RecipeRepositoryImpl(
     private val recipeApi: RecipeApi,
-    private val context: Context
+    private val appDao: AppDao
 ) : RecipeRepository {
 
     override suspend fun searchRecipes(recipeName: String): RecipeFromNameDto {
@@ -31,6 +34,11 @@ class RecipeRepositoryImpl (
             appId = Cons.appId,
             appKey = Cons.appKey
         )
+    }
+
+    override suspend fun saveRecipe(recipe: SingleRecipeDto) = appDao.insertRecipe(recipe)
+    override fun getSavedRecipes(): Flow<List<SingleRecipeDto>> {
+        return appDao.getSavedRecipes()
     }
 }
 

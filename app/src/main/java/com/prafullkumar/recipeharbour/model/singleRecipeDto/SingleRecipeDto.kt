@@ -10,9 +10,9 @@ import com.google.gson.annotations.SerializedName
 data class SingleRecipeDto (
   @PrimaryKey(autoGenerate = true)
   val id : Int = 0,
+  val isFavourite: Boolean = false,
   @SerializedName("recipe" ) var recipe : Recipe? = Recipe(),
   @SerializedName("_links" ) var Links  : Links?  = Links()
-
 )
 class Converters {
   private val gson = Gson()

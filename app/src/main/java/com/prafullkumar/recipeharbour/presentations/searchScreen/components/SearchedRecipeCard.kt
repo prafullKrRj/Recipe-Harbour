@@ -58,7 +58,7 @@ fun SearchedRecipeCard(
                     )
                 )) {
             }
-            Text(text = hit.Links?.self?.href?: "", modifier = Modifier
+            Text(text = hit.recipe?.label ?: "", modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.BottomStart),
                 color = Color.White

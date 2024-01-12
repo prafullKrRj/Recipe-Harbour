@@ -12,7 +12,7 @@ data class Recipe (
   @SerializedName("source"            ) var source            : String?                = null,
   @SerializedName("url"               ) var url               : String?                = null,
   @SerializedName("shareAs"           ) var shareAs           : String?                = null,
-  @SerializedName("yield"             ) var yield             : Double?                   = null,
+  @SerializedName("yield"             ) var yield             : Double?                = null,
   @SerializedName("dietLabels"        ) var dietLabels        : ArrayList<String>      = arrayListOf(),
   @SerializedName("healthLabels"      ) var healthLabels      : ArrayList<String>      = arrayListOf(),
   @SerializedName("cautions"          ) var cautions          : ArrayList<String>      = arrayListOf(),

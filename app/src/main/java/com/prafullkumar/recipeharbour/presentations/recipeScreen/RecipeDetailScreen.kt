@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
-import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 
 @Composable
 fun RecipeDetailsScreen(viewModel: RecipeDetailsViewModel, navController: NavController) {
@@ -26,12 +25,8 @@ fun RecipeDetailsScreen(viewModel: RecipeDetailsViewModel, navController: NavCon
                 (state.value as RecipeDetailsState.Error).error, modifier = Modifier, textAlign = TextAlign.Center)
         }
         is RecipeDetailsState.Success -> {
-            Text(text = "Success", modifier = Modifier, textAlign = TextAlign.Center)
+            RecipeSuccessScreen(recipeDto = (state.value as RecipeDetailsState.Success).recipe, navController = navController, viewModel = viewModel)
         }
     }
 }
 
-@Composable
-fun RecipeSuccessScreen(recipeDto: SingleRecipeDto) {
-
-}

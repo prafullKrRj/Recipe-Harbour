@@ -1,10 +1,8 @@
 package com.prafullkumar.recipeharbour.presentations.recipeScreen
 
-import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prafullkumar.recipeharbour.data.repositories.RecipeRepository
-import com.prafullkumar.recipeharbour.model.recipeFromNameDto.Recipe
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,9 +23,13 @@ class RecipeDetailsViewModel(
             } catch (e: Exception) {
                 RecipeDetailsState.Error(e.message ?: "Unknown error")
             }
+            if ( _state.value is RecipeDetailsState.Success) {
+                repository.saveRecipe((_state.value as RecipeDetailsState.Success).recipe)
+            }
         }
     }
 }
+
 sealed class RecipeDetailsState {
     data object Loading: RecipeDetailsState()
     data class Success(val recipe: SingleRecipeDto): RecipeDetailsState()
