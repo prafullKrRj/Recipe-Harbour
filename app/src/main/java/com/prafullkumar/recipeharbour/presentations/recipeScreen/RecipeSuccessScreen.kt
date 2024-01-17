@@ -3,10 +3,15 @@ package com.prafullkumar.recipeharbour.presentations.recipeScreen
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,18 +21,21 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.Images
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
@@ -35,7 +43,8 @@ import com.prafullkumar.recipeharbour.presentations.recipeScreen.components.Heal
 import com.prafullkumar.recipeharbour.presentations.recipeScreen.components.IngredientsSection
 import com.prafullkumar.recipeharbour.presentations.recipeScreen.components.RecipeDetails
 import com.prafullkumar.recipeharbour.presentations.recipeScreen.components.RecipeImage
-import com.prafullkumar.recipeharbour.ui.theme.oceanBlue
+import com.prafullkumar.recipeharbour.ui.theme.PoppinsMedium
+import com.prafullkumar.recipeharbour.ui.theme.PoppinsRegular
 
 @Composable
 fun RecipeSuccessScreen(viewModel: RecipeDetailsViewModel, recipeDto: SingleRecipeDto, navController: NavController) {
@@ -75,9 +84,20 @@ fun RecipeSuccessScreen(viewModel: RecipeDetailsViewModel, recipeDto: SingleReci
         item {
             if (recipeDto.recipe?.healthLabels?.isNotEmpty() == true) {
                 FoodLabelsSection(
+                    heading = "Health Labels",
                     modifier = Modifier
                         .padding(horizontal = 12.dp),
                     foodLabels = recipeDto.recipe?.healthLabels ?: emptyList()
+                )
+            }
+        }
+        item {
+            if (recipeDto.recipe?.dietLabels?.isNotEmpty() == true) {
+                FoodLabelsSection(
+                    heading = "Diet Labels",
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp),
+                    foodLabels = recipeDto.recipe?.dietLabels ?: emptyList()
                 )
             }
         }
@@ -87,18 +107,55 @@ fun RecipeSuccessScreen(viewModel: RecipeDetailsViewModel, recipeDto: SingleReci
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FoodLabelsSection(
-    modifier: Modifier,
-    foodLabels: List<String>
+    modifier: Modifier = Modifier,
+    foodLabels: List<String>,
+    heading: String
 ) {
-    FlowRow {
-        foodLabels.forEach {
-            Box(modifier = Modifier.padding(4.dp).clip(RoundedCornerShape(8.dp)).border(1.dp, oceanBlue), contentAlignment = Center) {
-                Text(text = it)
+    Text(
+        text = heading,
+        modifier = modifier.padding(top = 12.dp, start = 12.dp, end = 12.dp, bottom = 4.dp),
+        fontSize = 20.sp,
+        fontFamily = PoppinsMedium,
+    )
+    FlowRow (
+        modifier
+            .fillMaxWidth()
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )){
+        if (foodLabels.size > 8) {
+            foodLabels.take(8).forEach {
+                Tag(tag = it)
+            }
+        } else {
+            foodLabels.forEach {
+                Tag(tag = it)
             }
         }
     }
 }
-
+@Composable
+fun Tag(tag: String) {
+    Box(
+        modifier = Modifier
+            .padding(6.dp)
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = RoundedCornerShape(100.dp)
+            )
+            .padding(10.dp)
+    ) {
+        Text(
+            text = tag,
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center
+        )
+    }
+}
 @Composable
 fun RecipeUrl(
     modifier: Modifier,
