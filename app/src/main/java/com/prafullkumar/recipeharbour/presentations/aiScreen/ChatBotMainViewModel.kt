@@ -1,65 +1,67 @@
 package com.prafullkumar.recipeharbour.presentations.aiScreen
 
-import android.graphics.Bitmap
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.ai.client.generativeai.BuildConfig
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.Content
-import com.google.ai.client.generativeai.type.content
 import com.prafullkumar.recipeharbour.data.repositories.ChatBotRepository
+import com.prafullkumar.recipeharbour.data.repositories.Response
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ChatBotMainViewModel(
     private val chatBotRepository: ChatBotRepository
 ): ViewModel() {
-
-    private val chatState: MutableStateFlow<ChatState> = MutableStateFlow(ChatState())
-    val chatStateFlow = chatState.asStateFlow()
-
-    private val generativeModel = GenerativeModel(
-        modelName = "gemini-pro",
-        apiKey = "AIzaSyBZqGVCyyzROabsi4r2ccYT9HNCWZ62h58"
-    )
-    private val chat = generativeModel.startChat(
-        history = listOf()
-    )
-
-    fun generateContent(image: Bitmap? = null, text: String) {
-        chatState.update {
-            it.copy(loading = true)
+    private val _uiState:MutableStateFlow<ChatUiState> =
+        MutableStateFlow(ChatUiState.Initial)
+    val uiState = _uiState.asStateFlow()
+    val messages: MutableList<Message> = mutableListOf()
+    fun sendMessage(message: String) {
+        _uiState.update {
+            ChatUiState.Loading
         }
+        messages.add(
+            Message(
+                text = message,
+                person = Participant.USER,
+                messageType = MessageType.USER
+            )
+        )
         viewModelScope.launch {
-            val content = content(
-                role = Person.USER.role
-            ) {
-                if (image != null) {
-                    image(image)
-                    text("give recipe of this image")
-                } else {
-                    text(text)
+
+            val response: Response = chatBotRepository.sendMessage(message)
+            when(response) {
+                is Response.Success -> {
+                    messages.add(
+                        Message(
+                            text = response.message ?: "No response",
+                            person = Participant.MODEL,
+                            messageType = MessageType.USER
+                        )
+                    )
+                    _uiState.value = ChatUiState.Success
                 }
-            }
-            val response = chat.sendMessage(content)
-            chatState.update {
-                it.copy(
-                    messages = it.messages + content + response.candidates[0].content,
-                    loading = false
-                )
+                is Response.Error -> {
+                    _uiState.value = ChatUiState.Error(response.message)
+                }
             }
         }
     }
 }
-data class ChatState(
-    val messages: List<Content> = emptyList(),
-    val loading: Boolean = false,
+sealed interface ChatUiState {
+    data object Initial : ChatUiState
+    data object Loading : ChatUiState
+    data object Success : ChatUiState
+    data class Error(
+        val errorMessage: String
+    ) : ChatUiState
+}
+data class Message(
+    val text: String,
+    val person: Participant,
+    val messageType: MessageType
 )
-enum class Person(val role: String) {
+enum class Participant(val role: String) {
     USER("user"),
     MODEL("model")
 }
