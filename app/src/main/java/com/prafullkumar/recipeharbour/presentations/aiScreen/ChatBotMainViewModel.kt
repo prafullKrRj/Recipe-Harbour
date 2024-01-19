@@ -21,6 +21,7 @@ class ChatBotMainViewModel(
             ChatUiState.Loading
         }
         messages.add(
+            0,
             Message(
                 text = message,
                 person = Participant.USER,
@@ -29,10 +30,10 @@ class ChatBotMainViewModel(
         )
         viewModelScope.launch {
 
-            val response: Response = chatBotRepository.sendMessage(message)
-            when(response) {
+            when(val response: Response = chatBotRepository.sendMessage(message)) {
                 is Response.Success -> {
                     messages.add(
+                        0,
                         Message(
                             text = response.message ?: "No response",
                             person = Participant.MODEL,
@@ -43,6 +44,14 @@ class ChatBotMainViewModel(
                 }
                 is Response.Error -> {
                     _uiState.value = ChatUiState.Error(response.message)
+                    messages.add(
+                        0,
+                        Message(
+                            text = response.message,
+                            person = Participant.MODEL,
+                            messageType = MessageType.USER
+                        )
+                    )
                 }
             }
         }

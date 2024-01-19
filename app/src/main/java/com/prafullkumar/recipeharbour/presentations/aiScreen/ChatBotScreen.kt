@@ -1,8 +1,14 @@
 package com.prafullkumar.recipeharbour.presentations.aiScreen
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Card
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,38 +46,56 @@ fun ChatBotScreenMain(chatBotMainViewModel: ChatBotMainViewModel) {
             )
         }
     ){ paddingValues ->
-        Column(
-            Modifier
+        ChatScreen(
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues = paddingValues)
-        ) {
-            when (chatState) {
-                is ChatUiState.Initial -> {
-                    Text(text = "Initial")
-                }
-                is ChatUiState.Loading -> {
-                    CircularProgressIndicator()
-                }
-                is ChatUiState.Success -> {
-                    SuccessScreen(
-                        messages = chatBotMainViewModel.messages
-                    )
-                }
-                else -> {
-                    Text(text = "Error")
-                }
+                .padding(paddingValues),
+            messages = chatBotMainViewModel.messages,
+            state = chatState
+        )
+    }
+}
+@Composable
+fun ChatScreen(
+    modifier: Modifier = Modifier,
+    messages: List<Message> = emptyList(),
+    state: ChatUiState = ChatUiState.Initial
+) {
+    LazyColumn(modifier = modifier, reverseLayout = true) {
+        item {
+            if (state == ChatUiState.Loading) {
+                CircularProgressIndicator()
+            }
+        }
+        messages.forEach { message ->
+            item {
+                ChatBubble(message = message)
             }
         }
     }
 }
 @Composable
-fun SuccessScreen(modifier: Modifier = Modifier, messages: List<Message> = emptyList()) {
-    Column(modifier = modifier) {
-        messages.forEach { message ->
-            Text(
-                text = message.text,
-                color = if (message.person == Participant.USER) Color.Blue else Color.Green,
+fun ChatBubble(modifier: Modifier = Modifier, message: Message) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = if (message.person == Participant.USER) {
+            Arrangement.End
+        } else {
+            Arrangement.Start
+        }
+    ) {
+        Card (
+            modifier = Modifier.padding(
+                vertical = 8.dp,
+            ).padding(
+                start = if (message.person == Participant.USER) 32.dp else 8.dp,
+                end = if (message.person == Participant.USER) 8.dp else 32.dp
+            ).background(
+                if (message.person == Participant.USER) Color(0xFFE0E0E0) else Color(0xFFBDBDBD)
             )
+                .fillMaxWidth()
+        ){
+            Text(text = message.text)
         }
     }
 }
