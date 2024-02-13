@@ -49,7 +49,7 @@ class RecipeAppContainerImpl(
         SearchRepositoryImpl(recipeApi, dao)
     }
     override val chatBotRepository: ChatBotRepository by lazy {
-        ChatBotRepositoryImpl(context)
+        ChatBotRepositoryImpl()
     }
 }
 class IntDeserializer : JsonDeserializer<Int> {

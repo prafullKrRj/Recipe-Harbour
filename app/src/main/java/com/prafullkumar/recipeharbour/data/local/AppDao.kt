@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryEntity
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
-import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 import kotlinx.coroutines.flow.Flow
 
 @Dao

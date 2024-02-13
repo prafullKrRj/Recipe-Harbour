@@ -38,7 +38,7 @@ fun RecipeImage(
     backHandler: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    var imageType by rememberSaveable {
+    val imageType by rememberSaveable {
         mutableStateOf(ImageTypes.LARGE.name)
     }
     var imageData by rememberSaveable {

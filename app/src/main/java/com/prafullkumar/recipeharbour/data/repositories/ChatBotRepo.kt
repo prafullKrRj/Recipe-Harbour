@@ -1,6 +1,5 @@
 package com.prafullkumar.recipeharbour.data.repositories
 
-import android.content.Context
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.prafullkumar.recipeharbour.presentations.aiScreen.Participant
@@ -10,9 +9,7 @@ interface ChatBotRepository {
 
 }
 
-class ChatBotRepositoryImpl (
-    private val context: Context,
-) : ChatBotRepository {
+class ChatBotRepositoryImpl : ChatBotRepository {
     private val generativeModel = GenerativeModel(
         modelName = "gemini-pro",
         apiKey = "AIzaSyBZqGVCyyzROabsi4r2ccYT9HNCWZ62h58"
