@@ -28,7 +28,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.prafullkumar.recipeharbour.R
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.Images
-import com.prafullkumar.recipeharbour.presentations.recipeScreen.RecipeDetailsViewModel
 
 
 @Composable
@@ -36,7 +35,6 @@ fun RecipeImage(
     modifier: Modifier,
     images: Images = Images(),
     isBookMarked: Boolean,
-    viewModel: RecipeDetailsViewModel,
     backHandler: () -> Unit = {}
 ) {
     val context = LocalContext.current

@@ -1,9 +1,6 @@
 package com.prafullkumar.recipeharbour.presentations.aiScreen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.ui.unit.dp
-import androidx.compose.material3.Card
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,6 +24,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import com.prafullkumar.recipeharbour.ui.theme.oceanBlue
 
 @Composable
 fun ChatBotScreenMain(chatBotMainViewModel: ChatBotMainViewModel) {
@@ -85,17 +86,21 @@ fun ChatBubble(modifier: Modifier = Modifier, message: Message) {
         }
     ) {
         Card (
-            modifier = Modifier.padding(
-                vertical = 8.dp,
-            ).padding(
-                start = if (message.person == Participant.USER) 32.dp else 8.dp,
-                end = if (message.person == Participant.USER) 8.dp else 32.dp
-            ).background(
-                if (message.person == Participant.USER) Color(0xFFE0E0E0) else Color(0xFFBDBDBD)
-            )
+            modifier = Modifier
+                .padding(
+                    vertical = 8.dp,
+                )
+                .padding(
+                    start = if (message.person == Participant.USER) 32.dp else 8.dp,
+                    end = if (message.person == Participant.USER) 8.dp else 32.dp
+                )
                 .fillMaxWidth()
+            ,
+            colors = CardDefaults.cardColors(
+                containerColor = if (message.person == Participant.USER) oceanBlue else Color(0xFFBDBDBD)
+            )
         ){
-            Text(text = message.text)
+            Text(text = message.text, modifier = Modifier.padding(16.dp))
         }
     }
 }

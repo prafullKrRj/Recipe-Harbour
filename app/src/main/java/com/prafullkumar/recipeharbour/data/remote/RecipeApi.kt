@@ -2,6 +2,8 @@ package com.prafullkumar.recipeharbour.data.remote
 
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,7 +15,7 @@ interface RecipeApi {
         @Query("q") query: String,
         @Query("app_id") appId: String,
         @Query("app_key") appKey: String
-    ): RecipeFromNameDto
+    ): Response<RecipeFromNameDto>
 
 
     @GET("api/recipes/v2/{id}")
@@ -22,5 +24,5 @@ interface RecipeApi {
         @Query("type") type: String,
         @Query("app_id") appId: String,
         @Query("app_key") appKey: String
-    ): SingleRecipeDto
+    ): Response<SingleRecipeDto>
 }

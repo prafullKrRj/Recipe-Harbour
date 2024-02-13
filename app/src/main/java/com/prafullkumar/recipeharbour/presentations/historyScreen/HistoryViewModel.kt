@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class HistoryViewModel(container: RecipeRepository): ViewModel() {
+class HistoryViewModel(repository: RecipeRepository): ViewModel() {
 
 
-    val history: StateFlow<List<SingleRecipeDto>> = container.getSavedRecipes().stateIn(
+    val history: StateFlow<List<SingleRecipeDto>> = repository.getSavedRecipes().stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         emptyList()

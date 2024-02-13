@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.prafullkumar.recipeharbour.R
+import com.prafullkumar.recipeharbour.model.Resource
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.Hits
 import com.prafullkumar.recipeharbour.presentations.searchScreen.components.RecipeSearchBar
 import com.prafullkumar.recipeharbour.presentations.searchScreen.components.SearchedRecipeCard
@@ -73,19 +74,19 @@ fun SearchScreenMain(searchViewModel: SearchViewModel, navController: NavControl
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             when (searchState.value) {
-                is SearchState.Success -> {
-                    SuccessScreen(items = (searchState.value as SearchState.Success).dishes.hits, navController)
+                is Resource.Success -> {
+                    SuccessScreen(items = (searchState.value as Resource.Success).data.hits, navController)
                 }
-                is SearchState.Error -> {
-                    Text(text = (searchState.value as SearchState.Error).error, fontSize = 50.sp, fontFamily = PoppinsMedium)
+                is Resource.Error -> {
+                    Text(text = (searchState.value as Resource.Error).message, fontSize = 50.sp, fontFamily = PoppinsMedium)
                 }
-                is SearchState.Empty -> {
+                is Resource.Initial -> {
                     EmptyScreen(historyItem = searchViewModel.history.value) {
                         searchViewModel.searchDishes(it)
                         searchViewModel.searchQuery.value = it
                     }
                 }
-                is SearchState.Loading -> {
+                is Resource.Loading -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }

@@ -10,22 +10,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
+import com.prafullkumar.recipeharbour.model.Resource
 
 @Composable
 fun RecipeDetailsScreen(viewModel: RecipeDetailsViewModel, navController: NavController) {
     val state = viewModel.state.collectAsState()
     when(state.value) {
-        is RecipeDetailsState.Loading -> {
+        is Resource.Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         }
-        is RecipeDetailsState.Error -> {
+        is Resource.Error -> {
             Text(text =
-                (state.value as RecipeDetailsState.Error).error, modifier = Modifier, textAlign = TextAlign.Center)
+                (state.value as Resource.Error).message, modifier = Modifier, textAlign = TextAlign.Center)
         }
-        is RecipeDetailsState.Success -> {
-            RecipeSuccessScreen(recipeDto = (state.value as RecipeDetailsState.Success).recipe, navController = navController, viewModel = viewModel)
+        is Resource.Success -> {
+            RecipeSuccessScreen(
+                recipeDto = (state.value as Resource.Success).data,
+                navController = navController
+            )
+        } else -> {
+            Text(text = "Something went wrong", modifier = Modifier, textAlign = TextAlign.Center)
         }
     }
 }

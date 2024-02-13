@@ -41,6 +41,6 @@ sealed class Response {
     data class Error(val message: String) : Response()
 }
 private object Constants {
-    const val startingQuery = "Answer as you are providing me recipe or all my prompts are related to food and particular food name when to eat food which type of food and some common question related to food nutrition recipe if you think the question is out of domain then give some answer related to food and write give relevant prompts"
+    const val startingQuery = "Answer as you are providing me recipe or all my prompts are related to food and particular food name when to eat food which type of food and some common question related to food nutrition recipe if you think the question is out of domain then give some answer related to food and write give relevant prompts, if you think the answer can be small give short answers and if you think the answer then give some brief and asks user if they want in detail"
 
 }

@@ -3,12 +3,14 @@ package com.prafullkumar.recipeharbour.data.repositories
 import com.prafullkumar.recipeharbour.data.local.AppDao
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
 import com.prafullkumar.recipeharbour.data.remote.RecipeApi
+import com.prafullkumar.recipeharbour.model.Resource
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 interface RecipeRepository {
     suspend fun searchRecipes(recipeName: String): RecipeFromNameDto
-    suspend fun getRecipeDetails(recipeId: String): SingleRecipeDto
+    suspend fun getRecipeDetails(recipeId: String): Flow<Resource<SingleRecipeDto>>
     suspend fun saveRecipe(recipe: SingleRecipeDto)
     fun getSavedRecipes(): Flow<List<SingleRecipeDto>>
 }
@@ -19,23 +21,38 @@ class RecipeRepositoryImpl(
 ) : RecipeRepository {
 
     override suspend fun searchRecipes(recipeName: String): RecipeFromNameDto {
-        return recipeApi.searchRecipes(
-            type = "",
+        val response = recipeApi.searchRecipes(
+            type = "public",
             query = recipeName,
             appId = Cons.appId,
             appKey = Cons.appKey
         )
+        if (response.isSuccessful) {
+            return response.body()!!
+        } else {
+            throw Exception("Error: ${response.code()}")
+        }
     }
 
-    override suspend fun getRecipeDetails(recipeId: String): SingleRecipeDto {
-        return recipeApi.getRecipeDetails(
-            type = "public",
-            recipeId = recipeId,
-            appId = Cons.appId,
-            appKey = Cons.appKey
-        )
+    override suspend fun getRecipeDetails(recipeId: String): Flow<Resource<SingleRecipeDto>> = flow {
+        emit(Resource.Loading)
+        try {
+            val response = recipeApi.getRecipeDetails(
+                recipeId = recipeId,
+                type = "public",
+                appId = Cons.appId,
+                appKey = Cons.appKey
+            )
+            if (response.isSuccessful) {
+                saveRecipe(response.body()!!)
+                emit(Resource.Success(response.body()!!))
+            } else {
+                emit(Resource.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "Unknown error"))
+        }
     }
-
     override suspend fun saveRecipe(recipe: SingleRecipeDto) = appDao.insertRecipe(recipe)
     override fun getSavedRecipes(): Flow<List<SingleRecipeDto>> {
         return appDao.getSavedRecipes()

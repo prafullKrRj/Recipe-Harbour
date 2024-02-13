@@ -39,7 +39,7 @@ import com.prafullkumar.recipeharbour.presentations.recipeScreen.components.Reci
 import com.prafullkumar.recipeharbour.ui.theme.PoppinsMedium
 
 @Composable
-fun RecipeSuccessScreen(viewModel: RecipeDetailsViewModel, recipeDto: SingleRecipeDto, navController: NavController) {
+fun RecipeSuccessScreen(recipeDto: SingleRecipeDto, navController: NavController) {
     val context = LocalContext.current
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -48,8 +48,7 @@ fun RecipeSuccessScreen(viewModel: RecipeDetailsViewModel, recipeDto: SingleReci
             RecipeImage(
                 modifier = Modifier.fillMaxWidth(),
                 images = recipeDto.recipe?.images ?: Images(),
-                isBookMarked = recipeDto.isFavourite,
-                viewModel = viewModel
+                isBookMarked = recipeDto.isFavourite
             ) {
                 navController.popBackStack()
             }
