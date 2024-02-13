@@ -33,6 +33,7 @@ import androidx.navigation.navArgument
 import com.prafullkumar.recipeharbour.presentations.aiScreen.ChatBotScreenMain
 import com.prafullkumar.recipeharbour.presentations.favouritesScreen.FavouriteScreen
 import com.prafullkumar.recipeharbour.presentations.historyScreen.HistoryScreen
+import com.prafullkumar.recipeharbour.presentations.historyScreen.HistoryViewModel
 import com.prafullkumar.recipeharbour.presentations.homeScreen.homeScreenUI.HomeScreen
 import com.prafullkumar.recipeharbour.presentations.recipeScreen.RecipeDetailsScreen
 import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchScreenMain
@@ -42,6 +43,7 @@ import com.prafullkumar.recipeharbour.presentations.searchScreen.SearchViewModel
 fun NavigationGraph() {
     val navController = rememberNavController()
     val searchViewModel: SearchViewModel = viewModel(factory = ViewModelProvider.SearchScreenVM)
+    val historyViewModel: HistoryViewModel = viewModel(factory = ViewModelProvider.HistoryScreenVM)
     Scaffold(
         bottomBar = {
             BottomAppBar {
@@ -77,7 +79,7 @@ fun NavigationGraph() {
                 }
                 composable(Screen.HISTORY.route) {
                     HistoryScreen(
-                        viewModel = viewModel(factory = ViewModelProvider.HistoryScreenVM),
+                        viewModel = historyViewModel,
                         navController
                     )
                 }

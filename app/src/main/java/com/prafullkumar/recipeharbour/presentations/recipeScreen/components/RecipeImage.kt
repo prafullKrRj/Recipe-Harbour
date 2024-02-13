@@ -35,7 +35,8 @@ fun RecipeImage(
     modifier: Modifier,
     images: Images = Images(),
     isBookMarked: Boolean,
-    backHandler: () -> Unit = {}
+    backHandler: () -> Unit = {},
+    bookMarkHandler: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val imageType by rememberSaveable {
@@ -98,6 +99,7 @@ fun RecipeImage(
             IconButton(
                 onClick = {
                     bookmarked = !bookmarked
+                    bookMarkHandler()
                 }
             ) {
                 Icon(

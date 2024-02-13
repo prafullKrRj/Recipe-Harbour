@@ -42,7 +42,7 @@ fun HistoryScreen(viewModel: HistoryViewModel, navController: NavHostController)
                         .height(220.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .clickable {
-
+                            navController.navigate("recipeDetails/${item.uniqueId}")
                         }
                 ) {
                     Box(modifier = Modifier.fillMaxSize()) {

@@ -14,6 +14,8 @@ interface RecipeRepository {
     suspend fun getRecipeDetails(recipeId: String): Flow<Resource<SingleRecipeDto>>
     fun getSavedRecipes(): Flow<List<HistoryEntity>>
     suspend fun saveRecipe(recipe: HistoryEntity)
+    fun bookmarkRecipe(recipeId: String)
+    fun getRecipeFromDb(recipeId: String): Flow<HistoryEntity>
 }
 
 class RecipeRepositoryImpl(
@@ -60,6 +62,14 @@ class RecipeRepositoryImpl(
         }
     }
     override suspend fun saveRecipe(recipe: HistoryEntity) = appDao.insertRecipe(recipe)
+    override fun bookmarkRecipe(recipeId: String) {
+
+    }
+
+    override fun getRecipeFromDb(recipeId: String): Flow<HistoryEntity> {
+        return appDao.getRecipe(recipeId)
+    }
+
     override fun getSavedRecipes(): Flow<List<HistoryEntity>> {
         return appDao.getSavedRecipes()
     }

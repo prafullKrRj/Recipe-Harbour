@@ -29,7 +29,9 @@ fun RecipeDetailsScreen(viewModel: RecipeDetailsViewModel, navController: NavCon
             RecipeSuccessScreen(
                 recipeDto = (state.value as Resource.Success).data,
                 navController = navController
-            )
+            ) {
+                viewModel.bookmarkRecipe()
+            }
         } else -> {
             Text(text = "Something went wrong", modifier = Modifier, textAlign = TextAlign.Center)
         }

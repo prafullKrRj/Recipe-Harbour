@@ -22,4 +22,7 @@ interface AppDao {
 
     @Query("SELECT * FROM HistoryEntity ORDER BY time DESC")
     fun getSavedRecipes(): Flow<List<HistoryEntity>>
+
+    @Query("SELECT * FROM HistoryEntity WHERE uniqueId = :recipeId")
+    fun getRecipe(recipeId: String): Flow<HistoryEntity>
 }

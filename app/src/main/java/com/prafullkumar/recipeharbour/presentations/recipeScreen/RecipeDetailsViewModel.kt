@@ -14,6 +14,9 @@ class RecipeDetailsViewModel(
     private val repository: RecipeRepository,
     private val recipeId: String
 ): ViewModel() {
+    fun bookmarkRecipe() {
+        repository.bookmarkRecipe(recipeId)
+    }
 
     private val _state: MutableStateFlow<Resource<SingleRecipeDto>> = MutableStateFlow(Resource.Loading)
     val state = _state.asStateFlow()
