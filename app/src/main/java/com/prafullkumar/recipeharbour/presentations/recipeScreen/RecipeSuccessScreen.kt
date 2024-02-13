@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.prafullkumar.recipeharbour.goBackStack
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.Images
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 import com.prafullkumar.recipeharbour.presentations.recipeScreen.components.HealthChartRow
@@ -50,7 +51,7 @@ fun RecipeSuccessScreen(recipeDto: SingleRecipeDto, navController: NavController
                 images = recipeDto.recipe?.images ?: Images(),
                 isBookMarked = recipeDto.isFavourite
             ) {
-                navController.popBackStack()
+                navController.goBackStack()
             }
         }
         item {

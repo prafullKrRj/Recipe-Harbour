@@ -1,21 +1,27 @@
 package com.prafullkumar.recipeharbour.model.singleRecipeDto
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
-@Entity
+
 data class SingleRecipeDto (
-  @PrimaryKey(autoGenerate = true)
-  val id : Int = 0,
-  val isFavourite: Boolean = false,
+  val isFavourite : Boolean = false,
   @SerializedName("recipe" ) var recipe : Recipe? = Recipe(),
   @SerializedName("_links" ) var Links  : Links?  = Links()
 )
 class Converters {
   private val gson = Gson()
+
+    @TypeConverter
+    fun fromSingleRecipeDto(singleRecipeDto: SingleRecipeDto?): String {
+      return gson.toJson(singleRecipeDto)
+    }
+
+    @TypeConverter
+    fun toSingleRecipeDto(singleRecipeDtoString: String): SingleRecipeDto? {
+        return gson.fromJson(singleRecipeDtoString, SingleRecipeDto::class.java)
+    }
 
   @TypeConverter
   fun fromRecipe(recipe: Recipe?): String {

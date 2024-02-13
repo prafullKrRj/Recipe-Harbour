@@ -5,13 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.prafullkumar.recipeharbour.data.local.entities.HistoryEntity
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.Converters
-import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 
 
 @Database(
-    entities = [HistoryNameEntity::class, SingleRecipeDto::class],
+    entities = [HistoryNameEntity::class, HistoryEntity::class],
     version = 1,
     exportSchema = false
 )

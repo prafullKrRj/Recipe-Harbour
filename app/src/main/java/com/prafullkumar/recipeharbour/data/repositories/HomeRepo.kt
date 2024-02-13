@@ -1,6 +1,7 @@
 package com.prafullkumar.recipeharbour.data.repositories
 
 import com.prafullkumar.recipeharbour.data.local.AppDao
+import com.prafullkumar.recipeharbour.data.local.entities.HistoryEntity
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.RecipeFromNameDto
 import com.prafullkumar.recipeharbour.data.remote.RecipeApi
 import com.prafullkumar.recipeharbour.model.Resource
@@ -11,8 +12,8 @@ import kotlinx.coroutines.flow.flow
 interface RecipeRepository {
     suspend fun searchRecipes(recipeName: String): RecipeFromNameDto
     suspend fun getRecipeDetails(recipeId: String): Flow<Resource<SingleRecipeDto>>
-    suspend fun saveRecipe(recipe: SingleRecipeDto)
-    fun getSavedRecipes(): Flow<List<SingleRecipeDto>>
+    fun getSavedRecipes(): Flow<List<HistoryEntity>>
+    suspend fun saveRecipe(recipe: HistoryEntity)
 }
 
 class RecipeRepositoryImpl(
@@ -44,7 +45,12 @@ class RecipeRepositoryImpl(
                 appKey = Cons.appKey
             )
             if (response.isSuccessful) {
-                saveRecipe(response.body()!!)
+                saveRecipe(
+                    HistoryEntity(
+                        uniqueId = recipeId,
+                        singleRecipeDto = response.body()!!
+                    )
+                )
                 emit(Resource.Success(response.body()!!))
             } else {
                 emit(Resource.Error("Error: ${response.code()}"))
@@ -53,8 +59,8 @@ class RecipeRepositoryImpl(
             emit(Resource.Error(e.message ?: "Unknown error"))
         }
     }
-    override suspend fun saveRecipe(recipe: SingleRecipeDto) = appDao.insertRecipe(recipe)
-    override fun getSavedRecipes(): Flow<List<SingleRecipeDto>> {
+    override suspend fun saveRecipe(recipe: HistoryEntity) = appDao.insertRecipe(recipe)
+    override fun getSavedRecipes(): Flow<List<HistoryEntity>> {
         return appDao.getSavedRecipes()
     }
 }

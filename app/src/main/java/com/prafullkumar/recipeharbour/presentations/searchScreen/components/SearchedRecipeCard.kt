@@ -25,6 +25,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.prafullkumar.recipeharbour.R
 import com.prafullkumar.recipeharbour.model.recipeFromNameDto.Hits
+import com.prafullkumar.recipeharbour.model.recipeFromNameDto.Recipe
 import com.prafullkumar.recipeharbour.ui.theme.darkBlue
 
 @Composable
@@ -45,28 +46,32 @@ fun SearchedRecipeCard(
                 navController.navigate("recipeDetails/$recipeId")
             }
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            SearchedDishImage(data = hit.recipe?.image ?: "")
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            darkBlue
-                        )
-                    )
-                )) {
-            }
-            Text(text = hit.recipe?.label ?: "", modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.BottomStart),
-                color = Color.White
-            )
-        }
+        hit.recipe?.let { CardContent(recipe = it) }
     }
 }
 
+@Composable
+fun CardContent(recipe: Recipe?) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        SearchedDishImage(data = recipe?.image ?: "")
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Transparent,
+                        darkBlue
+                    )
+                )
+            )) {
+        }
+        Text(text = recipe?.label ?: "", modifier = Modifier
+            .padding(16.dp)
+            .align(Alignment.BottomStart),
+            color = Color.White
+        )
+    }
+}
 @Composable
 fun SearchedDishImage(data: String) {
     AsyncImage(

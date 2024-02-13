@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.prafullkumar.recipeharbour.data.local.entities.HistoryEntity
 import com.prafullkumar.recipeharbour.data.local.entities.HistoryNameEntity
 import com.prafullkumar.recipeharbour.model.singleRecipeDto.SingleRecipeDto
 import kotlinx.coroutines.flow.Flow
@@ -18,8 +19,8 @@ interface AppDao {
     fun getAllHistory(): Flow<List<HistoryNameEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRecipe(recipe: SingleRecipeDto)
+    suspend fun insertRecipe(recipe: HistoryEntity)
 
-    @Query("SELECT * FROM SingleRecipeDto ORDER BY id DESC")
-    fun getSavedRecipes(): Flow<List<SingleRecipeDto>>
+    @Query("SELECT * FROM HistoryEntity ORDER BY time DESC")
+    fun getSavedRecipes(): Flow<List<HistoryEntity>>
 }
